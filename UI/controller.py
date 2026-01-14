@@ -41,7 +41,7 @@ class Controller:
 
         self._view.lista_visualizzazione_1.controls.append(ft.Text(f'Numero di vertici: {n_nodi}  Numero di archi: {n_archi}'))
         for stato, somma in risultato.items():
-            self._view.lista_visualizzazione_1.controls.append(ft.Text(f'Nodo {stato}: {somma}'))
+            self._view.lista_visualizzazione_1.controls.append(ft.Text(f'Nodo {stato}, somma pesi su archi = {somma}'))
 
         self._view.update()
 
