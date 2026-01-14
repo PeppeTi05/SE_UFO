@@ -48,4 +48,3 @@ class Model:
 
         # sigla_stato --> somma_pesi_archi
         return risultato
-
