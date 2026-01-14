@@ -7,7 +7,22 @@ class Controller:
 
     def populate_dd(self):
         """ Metodo per popolare i dropdown """
-        # TODO
+        self._view.dd_year.options.clear()
+        for anno in self._model.anni:
+            self._view.dd_year.options.append(anno)
+
+        if self._model.anni:
+            self._view.dd_year.value = self._model.anni[0]
+
+
+        self._view.dd_shape.options.clear()
+        for forma in self._model.forme:
+            self._view.dd_shape.options.append(forme)
+
+        if self._model.forme:
+            self._view.dd_shape.value = self._model.forme[0]
+
+        self._view.update()
 
     def handle_graph(self, e):
         """ Handler per gestire creazione del grafo """
