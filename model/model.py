@@ -1,4 +1,5 @@
 import networkx as nx
+from database.dao import DAO
 
 class Model:
     def __init__(self):
@@ -40,4 +41,4 @@ class Model:
             somma = 0
             for vicino in self.grafo.neighbors(nodo):
                 somma = somma + self.grafo[nodo][vicino]['weight']
-            # risultato[nodo.id] = somma
+
