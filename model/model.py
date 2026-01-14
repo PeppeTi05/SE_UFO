@@ -26,19 +26,26 @@ class Model:
 
         self.mappa_stati = {}
         for s in self.stati:
-            self.mappa_stati[s.id] = s
+            key = s.id.strip().upper()
+            self.mappa_stati[key] = s
 
         self.grafo.add_nodes_from(self.stati)
 
         stati_connessi = DAO.get_stati_connessi(year, shape)
 
         for (s1, s2), peso in stati_connessi.items():
-            stato1 = self.mappa_stati[s1]
-            stato2 = self.mappa_stati[s2]
+            stato1 = self.mappa_stati[s1.strip().upper()]
+            stato2 = self.mappa_stati[s2.strip().upper()]
             self.grafo.add_edge(stato1, stato2, weight=peso)
+
+        risultato = {}
 
         for nodo in self.grafo.nodes:
             somma = 0
             for vicino in self.grafo.neighbors(nodo):
                 somma = somma + self.grafo[nodo][vicino]['weight']
+            risultato[nodo.id] = somma
+
+        # sigla_stato --> somma_pesi_archi
+        return risultato
 
