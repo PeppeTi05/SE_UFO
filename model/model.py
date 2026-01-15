@@ -1,5 +1,6 @@
 import networkx as nx
 from database.dao import DAO
+from geopy import distance
 
 class Model:
     def __init__(self):
@@ -48,12 +49,60 @@ class Model:
         # calcolo somma pesi sugli archi per ogni nodo
         risultato = {}
 
-        for nodo in self.grafo.nodes:
+        for nodo in self.grafo.nodes: # prendo uno stato
             somma = 0
-            for vicino in self.grafo.neighbors(nodo):
-                somma = somma + self.grafo[nodo][vicino]["weight"]
+            for vicino in self.grafo.neighbors(nodo): # prendo gli stati collegati a quello stato
+                somma = somma + self.grafo[nodo][vicino]["weight"] # sommo il peso dell'arco tra i due stati
             risultato[nodo.id] = somma
 
         # sigla_stato -> somma_pesi_archi
         return risultato
+
+    def calcola_percorso(self):
+        self.best_path = []
+        self.best_distance = 0
+
+        # considero TUTTI i nodi come possibili punti di partenza
+        for nodo in self.grafo.nodes:
+            self._ricorsione(percorso=[nodo], ultimo_peso=0, distanza_corrente=0)
+
+        return self.best_path, self.best_distance
+
+    def _ricorsione(self, percorso, ultimo_peso, distanza_corrente):
+        # aggiorno la soluzione migliore
+        if distanza_corrente > self.best_distance:
+            self.best_distance = distanza_corrente
+            self.best_path = list(percorso)
+
+        nodo_corrente = percorso[-1]
+
+        for vicino in self.grafo.neighbors(nodo_corrente):
+
+            # 1) percorso semplice
+            if vicino in percorso:
+                continue
+
+            peso_arco = self.grafo[nodo_corrente][vicino]["weight"]
+
+            # 2) peso strettamente crescente
+            if peso_arco <= ultimo_peso:
+                continue
+
+            # 3) calcolo distanza geografica
+            distanza = self._distanza_geografica(nodo_corrente, vicino)
+
+            # scelta
+            percorso.append(vicino)
+
+            # ricorsione
+            self._ricorsione(percorso, peso_arco, distanza_corrente + distanza)
+
+            # backtracking
+            percorso.pop()
+
+    def _distanza_geografica(self, s1, s2):
+        return distance.geodesic((s1.lat, s1.lng), (s2.lat, s2.lng)).km
+
+
+
 

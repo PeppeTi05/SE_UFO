@@ -5,8 +5,8 @@ class State:
     id : str
     name : str
     capital : str
-    # lat : float
-    # lng : float
+    lat : float
+    lng : float
     # area : str
     # population : float
     # neighbors : str

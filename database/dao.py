@@ -62,12 +62,12 @@ class DAO:
         stati = []
         cursor = conn.cursor(dictionary=True)
 
-        query = """SELECT DISTINCT id, name, capital
+        query = """SELECT DISTINCT id, name, capital, lat, lng
                     FROM state"""
 
         cursor.execute(query)
         for row in cursor:
-            stato = State(row['id'], row['name'], row['capital'])
+            stato = State(**row)
             stati.append(stato)
         cursor.close()
         conn.close()
