@@ -1,3 +1,4 @@
+
 import flet as ft
 from UI.alert import AlertManager
 

@@ -1,5 +1,6 @@
+
 from database.DB_connect import DBConnect
-from model.state import State
+from model.stato import State
 
 class DAO:
     @staticmethod

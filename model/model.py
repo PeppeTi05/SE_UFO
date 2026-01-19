@@ -1,3 +1,4 @@
+
 import networkx as nx
 from database.dao import DAO
 from geopy import distance
@@ -102,7 +103,3 @@ class Model:
 
     def _distanza_geografica(self, s1, s2):
         return distance.geodesic((s1.lat, s1.lng), (s2.lat, s2.lng)).km
-
-
-
-
